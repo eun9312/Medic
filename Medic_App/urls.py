@@ -19,7 +19,11 @@ from Medic_App import views as medic_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^$', medic_views.home),
+    url(r'^$', medic_views.home, name='home'),
+    url(r'^info$', medic_views.info, name='info'),
+    url(r'^check-up$', medic_views.checkup, name='check-up'),
+    url(r'^medic_chat$', medic_views.medicchat, name='medic_chat'),
+    url(r'^patients_chat$', medic_views.patientschat, name='patients_chat'),
     #url(r'^login$', auth_views.login, {'template_name':'login.html', 'authentication_form': forms.LoginForm}, name='login'),
     #url(r'^logout$', auth_views.logout_then_login, name='logout'),
     #url(r'^register$', sns_views.register, name='register'),
