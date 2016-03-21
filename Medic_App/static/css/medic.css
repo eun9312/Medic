@@ -1,0 +1,32 @@
+body {
+	padding-top: 70px;
+}
+
+nav a {
+	padding: 0 !important;
+}
+
+nav a p:hover {
+	color: black !important;
+}
+
+.navbar-brand {
+	padding: 0 !important;
+}
+
+.medic-logo {
+	max-height: 100%;
+}
+
+.btn-primary {
+	background: #089CCB !important;
+	border: none !important;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+	background: #067799 !important;
+}
+
+.navbar-btn {
+	margin-left: 15px !important;
+}
