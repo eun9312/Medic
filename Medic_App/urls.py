@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from Medic_App import views
+from Medic_App import views as medic_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^medic/', include('Medic_App.urls')),
-    url(r'^$', views.home),
+    url(r'^$', medic_views.home),
+    url(r'^login$', auth_views.login, {'template_name':'login.html', 'authentication_form': forms.LoginForm}, name='login'),
+    url(r'^logout$', auth_views.logout_then_login, name='logout'),
+    url(r'^register$', sns_views.register, name='register'),
 ]

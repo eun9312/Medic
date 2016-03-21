@@ -71,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Medic_Project.wsgi.application'
 
+LOGIN_URL = '/medic/login'
+LOGIN_REDIRECT_URL = '/medic/'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
