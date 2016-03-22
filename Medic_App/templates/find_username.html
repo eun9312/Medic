@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+Find Username
+{% endblock %}
+
+{% block content %}
+<form class="form-center" method="post" action="{% url 'find_username'%}">
+
+<h2>Find username</h2>
+<input class="form-control" type="text" name="firstname" placeholder="First Name" maxlength="30">
+<input class="form-control" type="text" name="lastname" placeholder="Last Name" maxlength="30">
+<input class="form-control" type="text" name="email" placeholder="Email Address" maxlength="40">
+{% if error %}
+<p class="error">
+{{error}}
+</p>
+{% endif %}
+{% csrf_token %}
+<input class="btn btn-lg btn-primary btn-block" type="submit" value="Send email">
+</form>
+{% endblock %}

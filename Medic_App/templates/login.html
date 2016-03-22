@@ -21,4 +21,9 @@ Incorrect user name and password.
 <form class="form-center" method="get" action="{% url 'register' %}">
 <button class="btn btn-lg btn-primary btn-block">Register</button>
 </form>
+<div class="form-center right-align">
+<a href="{% url 'find_username' %}">Find username</a>
+|
+<a href="{% url 'find_password' %}">Find password</a>
+</div>
 {% endblock %}

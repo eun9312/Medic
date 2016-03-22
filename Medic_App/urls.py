@@ -26,8 +26,10 @@ urlpatterns = [
     url(r'^medic_chat$', medic_views.medicchat, name='medic_chat'),
     url(r'^patients_chat$', medic_views.patientschat, name='patients_chat'),
     url(r'^login$', auth_views.login, {'template_name':'login.html', 'authentication_form': forms.LoginForm}, name='login'),
-    url(r'^logout$', auth_views.logout_then_login, name='logout'),
+    url(r'^logout$', auth_views.logout, {'next_page': '/medic'}, name='logout'),
     url(r'^register$', medic_views.register, name='register'),
     url(r'^confirm-registration/(?P<username>\w+)/(?P<token>[a-z0-9\-]+)$',
         medic_views.confirm_registration, name='confirm'),
+    url(r'^find_username$', medic_views.find_username, name='find_username'),
+    url(r'^find_password$', medic_views.find_password, name='find_password'),
 ]

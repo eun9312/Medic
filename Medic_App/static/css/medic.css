@@ -80,3 +80,11 @@ ul {
 	list-style-type: none;
 	padding: 0px;
 }
+
+.right-align {
+	text-align: right !important;
+}
+
+.form-center a {
+	color: white !important;
+}

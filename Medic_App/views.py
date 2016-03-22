@@ -4,6 +4,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+import random
+import string
 
 from Medic_App.forms import *
 
@@ -43,7 +46,9 @@ def register(request):
 
     new_user = User.objects.create_user(username=form.cleaned_data['username'], 
                                         password=form.cleaned_data['password1'],
-					email=form.cleaned_data['email'])
+					email=form.cleaned_data['email'],
+					first_name=form.cleaned_data['firstname'],
+					last_name=form.cleaned_data['lastname'])
     new_user.is_active = False
     new_user.save()
 
@@ -67,7 +72,7 @@ http://%s%s
     else:
 	    status = 'patient'
 
-    new_profile = Profile(user=new_user, firstname=form.cleaned_data['firstname'], lastname=form.cleaned_data['lastname'], status=status)
+    new_profile = Profile(user=new_user, status=status)
     new_profile.save()
 
     return render(request, 'needs-confirmation.html', context)
@@ -81,3 +86,68 @@ def confirm_registration(request, username, token):
     user.is_active = True
     user.save()
     return render(request, 'confirmed.html', {})
+
+def find_username(request):
+    context = {}
+
+    if request.method == 'GET':
+        return render(request, 'find_username.html', context)
+
+    firstname = request.POST['firstname']
+    lastname = request.POST['lastname']
+    email = request.POST['email']
+
+    try:
+        user = User.objects.get(email=email)
+    except ObjectDoesNotExist:
+	return render(request, 'find_username.html', {'error': 'No user matches the information.'})
+    if (user.first_name != firstname or user.last_name != lastname) :
+        return render(request, 'find_username.html', {'error': 'No user matches the information.'})
+
+    email_body = """
+Your username is
+%s
+""" % (user.username)
+
+    send_mail(subject="Your username",
+              message= email_body,
+              from_email="medic.email.service@gmail.com",
+              recipient_list=[email])
+
+    context['email'] = email
+
+    return render(request, 'needs-confirmation.html', context)
+
+def find_password(request):
+    context = {}
+
+    if request.method == 'GET':
+        return render(request, 'find_password.html', context)
+
+    username = request.POST['username']
+    email = request.POST['email']
+
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+	return render(request, 'find_password.html', {'error': 'No user matches the information.'})
+    if (user.email != email) :
+        return render(request, 'find_password.html', {'error': 'No user matches the information.'})
+
+    new_password = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in range(10))
+
+    email_body = """
+Your new password is
+%s
+""" % (new_password)
+
+    send_mail(subject="Your password",
+              message= email_body,
+              from_email="medic.email.service@gmail.com",
+              recipient_list=[email])
+
+    user.set_password(new_password)
+    user.save()
+    context['email'] = email
+
+    return render(request, 'needs-confirmation.html', context)

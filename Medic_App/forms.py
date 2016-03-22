@@ -10,7 +10,7 @@ MAX_UPLOAD_SIZE = 2500000
 
 # modified from class notes
 class RegistrationForm(forms.Form):
-    username = forms.CharField(max_length = 20,
+    username = forms.CharField(max_length = 30,
 		    widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
     firstname = forms.CharField(max_length = 30,
 	    widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'First Name'}))
@@ -37,6 +37,12 @@ class RegistrationForm(forms.Form):
         if User.objects.filter(username__exact=username):
             raise forms.ValidationError("Username is already taken.")
         return username
+
+    def clean_email(self):
+	email = self.cleaned_data.get('email')
+	if User.objects.filter(email__exact=email):
+	    raise forms.ValidationError("Email is already in use.")
+        return email
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
