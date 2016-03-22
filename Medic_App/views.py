@@ -9,7 +9,8 @@ from Medic_App.forms import *
 # Create your views here.
 
 def home(request):
-	return render(request, 'index.html', {})
+	currUser = request.user
+	return render(request, 'index.html', {'user': currUser})
 
 def info(request):
 	return render(request, 'info.html', {})

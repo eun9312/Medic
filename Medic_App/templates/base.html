@@ -24,7 +24,12 @@
 		<li><a href="{% url 'check-up' %}"><p class="navbar-text">Check-up</p></a></li>
 		<li><a href="{% url 'medic_chat' %}"><p class="navbar-text">Medic Chat</p></a></li>
 		<li><a href="{% url 'patients_chat' %}"><p class="navbar-text">Patients Chat</p></a></li>
+		{% if user.is_authenticated %}
+		<li><a href="#"><p class="navbar-text">{{user}}</p></a></li>
+		<li><a href="{% url 'logout' %}"><button type="button" class="btn btn-primary navbar-btn" >Sign out</button></a></li>
+		{% else %}
 	    <li><a href="{% url 'login' %}"><button type="button" class="btn btn-primary navbar-btn" >Sign in</button></a></li>
+		{% endif %}
 	  </ul>
 	</div>
   </div>
