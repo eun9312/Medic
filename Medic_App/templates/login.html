@@ -15,11 +15,11 @@ Log in
 Incorrect user name and password.
 </p>
 {% endif %}
-<input class="btn btn-lg btn-primary btn-block" type="submit" value="Log in" />
+<input class="btn btn-lg btn-default btn-block" type="submit" value="Log in" />
 {% csrf_token %}
 </form>
 <form class="form-center" method="get" action="{% url 'register' %}">
-<button class="btn btn-lg btn-primary btn-block">Register</button>
+<button class="btn btn-lg btn-default btn-block">Register</button>
 </form>
 <div class="form-center right-align">
 <a href="{% url 'find_username' %}">Find username</a>

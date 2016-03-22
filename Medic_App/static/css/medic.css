@@ -1,5 +1,6 @@
 body {
 	padding-top: 70px;
+	padding-bottom: 30px;
 	background: #64B143 !important;
 	color: white;
 }
@@ -33,6 +34,30 @@ nav a p:hover {
 	margin-left: 15px !important;
 }
 
+.btn-default {
+	background: #64B143 !important;
+	color: white !important;
+	border: 1px white solid;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default:active {
+	background: white !important;
+	color: #64B143 !important;
+	border: 1px white solid;
+}
+
+.btn-info {
+	background: white !important;
+	color: #64B143 !important;
+	border: 1px #64B143 solid;
+}
+
+.btn-info:hover, .btn-info:focus, .btn-info:active {
+	background: #64B143 !important;
+	color: white !important;
+	border: 1px #64B143 solid;
+}
+
 h1 {
 	text-align: center !important;
 	margin-top: 70px !important;
@@ -42,15 +67,25 @@ h4 {
 	text-align: center !important;
 }
 
+.title {
+	font-size: 52px;
+}
+
 .logo-block {
 	background: white;
-	height: 300px;
+	display: block;
+	padding: 70px 50px;
 	margin-top: 100px;
 	text-align: center;
+	color: #64B143 !important;
+}
+
+.logo-block .col-md-4 {
+	padding: 0px 40px;
 }
 
 .logo-block img {
-	margin-top: 110px;
+	margin: 30px auto;
 }
 
 .form-center {
@@ -87,4 +122,17 @@ ul {
 
 .form-center a {
 	color: white !important;
+}
+
+.form-intro {
+	text-align: center;
+}
+
+.form-intro .btn-default {
+	margin-top: 40px;
+}
+
+.form-intro .btn-info {
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

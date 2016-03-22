@@ -1,17 +1,41 @@
 {% extends "base.html" %}
-
+{% load staticfiles %}
 {% block title %}
 Medic
 {% endblock %}
 
 {% block content %}
-<h1>Live Healthier. Live Better.</h1>
+<h1 class="title">Live Healthier. Live Better.</h1>
 <h4>Find and talk about your medical condition.</h4>
+<form class="form-intro" method="get" action="{% url 'info' %}">
+<button class="btn btn-lg btn-default">Learn about Medic</button>
+</form>
 {% endblock %}
 
 {% block logo-block %}
 <div class="logo-block">
-{% load staticfiles %}
-<img alt="logo" src="{% static "img/logo.png" %}">
+<div class="row">
+  <div class="col-md-4">
+    <h2>Check-up</h2>
+    Lorem ipsum dolor sit amet, mel ne iusto imperdiet, no noster quaeque deleniti mei. Essent indoctum erroribus vis ei, idque audiam copiosae per et. Percipit definitiones te vim. Eirmod salutatus sea te, nec harum noluisse inciderint at. Pro iudico aliquam an.
+    <form class="form-intro" method="get" action="{% url 'check-up' %}">
+    <button class="btn btn-lg btn-info">Check-up</button>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <h2>Medic Chat</h2>
+    Lorem ipsum dolor sit amet, mel ne iusto imperdiet, no noster quaeque deleniti mei. Essent indoctum erroribus vis ei, idque audiam copiosae per et. Percipit definitiones te vim. Eirmod salutatus sea te, nec harum noluisse inciderint at. Pro iudico aliquam an.
+    <form class="form-intro" method="get" action="{% url 'medic_chat' %}">
+    <button class="btn btn-lg btn-info">Medic Chat</button>
+    </form>
+  </div>
+  <div class="col-md-4">
+    <h2>Patients Chat</h2>
+    Lorem ipsum dolor sit amet, mel ne iusto imperdiet, no noster quaeque deleniti mei. Essent indoctum erroribus vis ei, idque audiam copiosae per et. Percipit definitiones te vim. Eirmod salutatus sea te, nec harum noluisse inciderint at. Pro iudico aliquam an.
+    <form class="form-intro" method="get" action="{% url 'patients_chat' %}">
+    <button class="btn btn-lg btn-info">Patients Chat</button>
+    </form>
+  </div>
+</div>
 </div>
 {% endblock %}
