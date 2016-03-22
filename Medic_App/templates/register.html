@@ -14,11 +14,12 @@ Register
 {% for field in form.hidden_fields %}
 {{field}}
 {% endfor %}
-<p class="form-text">Are you a medical doctor?
+<p class="form-text">Are you a medical doctor?*
 <input type="radio" name="status" value="doctor"> Yes
 <input type="radio" name="status" value="patient" checked> No
 </p>
 {% csrf_token %}
 <input class="btn btn-lg btn-default btn-block" type="submit" value="Register" />
+<h6>*To gain full access as a doctor, you must sign in, go to your profile, and confirm as a doctor.</h6>
 </form>
 {% endblock %}

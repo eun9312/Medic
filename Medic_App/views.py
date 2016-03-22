@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db import transaction
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
@@ -151,3 +151,15 @@ Your new password is
     context['email'] = email
 
     return render(request, 'needs-confirmation.html', context)
+
+def profile(request, username) :
+    try:
+        user = User.objects.get(username=username)
+    except ObjectDoesNotExist:
+	return redirect(reverse('home'))
+    profile = Profile.objects.get(user=user)
+    if (request.user == user):
+        isOwner = True
+    else:
+	isOwner = False
+    return render(request, 'profile.html', {'profile': profile, 'user': user, 'isOwner': isOwner})
