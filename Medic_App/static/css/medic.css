@@ -67,6 +67,10 @@ h4 {
 	text-align: center !important;
 }
 
+h2 {
+	margin-top: 50px !important;
+}
+
 .title {
 	font-size: 52px;
 }
@@ -90,7 +94,7 @@ h4 {
 
 .form-center {
 	max-width:350px;
-	margin: 5px auto;
+	margin: 5px auto 5px auto;
 }
 
 .form-control {

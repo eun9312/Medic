@@ -7,9 +7,8 @@ from datetime import datetime
 
 # Create your models here.
 
-class Profile(models.Model):
+class Status(models.Model):
 	user = models.ForeignKey(User)
-	picture = models.ImageField(upload_to="", blank=True)
 	status = models.CharField(max_length=30)
 
 class Symptom(models.Model):

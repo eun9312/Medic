@@ -20,6 +20,13 @@ Register
 </p>
 {% csrf_token %}
 <input class="btn btn-lg btn-default btn-block" type="submit" value="Register" />
-<h6>*To gain full access as a doctor, you must sign in, go to your profile, and confirm as a doctor.</h6>
+<h6>*It may take a few business days to confirm medical doctor.</h6>
 </form>
+{% endblock %}
+
+{% block logo-block %}
+<div class="logo-block">
+{% load staticfiles %}
+<img alt="logo" src="{% static "img/logo.png" %}">
+</div>
 {% endblock %}

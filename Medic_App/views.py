@@ -72,11 +72,12 @@ http://%s%s
     else:
 	    status = 'patient'
 
-    new_profile = Profile(user=new_user, status=status)
-    new_profile.save()
+    new_status = Status(user=new_user, status=status)
+    new_status.save()
 
     return render(request, 'needs-confirmation.html', context)
 
+@transaction.atomic
 def confirm_registration(request, username, token):
     user = get_object_or_404(User, username=username)
 
@@ -118,6 +119,7 @@ Your username is
 
     return render(request, 'needs-confirmation.html', context)
 
+@transaction.atomic
 def find_password(request):
     context = {}
 
@@ -152,14 +154,3 @@ Your new password is
 
     return render(request, 'needs-confirmation.html', context)
 
-def profile(request, username) :
-    try:
-        user = User.objects.get(username=username)
-    except ObjectDoesNotExist:
-	return redirect(reverse('home'))
-    profile = Profile.objects.get(user=user)
-    if (request.user == user):
-        isOwner = True
-    else:
-	isOwner = False
-    return render(request, 'profile.html', {'profile': profile, 'user': user, 'isOwner': isOwner})

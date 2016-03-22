@@ -27,3 +27,10 @@ Incorrect user name and password.
 <a href="{% url 'find_password' %}">Find password</a>
 </div>
 {% endblock %}
+
+{% block logo-block %}
+<div class="logo-block">
+{% load staticfiles %}
+<img alt="logo" src="{% static "img/logo.png" %}">
+</div>
+{% endblock %}

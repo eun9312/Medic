@@ -32,5 +32,5 @@ urlpatterns = [
         medic_views.confirm_registration, name='confirm'),
     url(r'^find_username$', medic_views.find_username, name='find_username'),
     url(r'^find_password$', medic_views.find_password, name='find_password'),
-    url(r'^profile/(?P<username>\w+)$', medic_views.profile, name='profile'),
+    
 ]
