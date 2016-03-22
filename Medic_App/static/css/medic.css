@@ -1,5 +1,7 @@
 body {
 	padding-top: 70px;
+	background: #64B143 !important;
+	color: white;
 }
 
 nav a {
@@ -7,7 +9,7 @@ nav a {
 }
 
 nav a p:hover {
-	color: black !important;
+	color: #089CCB !important;
 }
 
 .navbar-brand {
@@ -29,4 +31,32 @@ nav a p:hover {
 
 .navbar-btn {
 	margin-left: 15px !important;
+}
+
+.form-center {
+	max-width:350px;
+	margin: 5px auto;
+}
+
+.form-control {
+	height:auto;
+	padding:12px;
+	font-size:16px;
+	margin: 5px 0px;
+}
+
+.form-text {
+	height:auto;
+	padding:12px;
+	font-size:16px;
+	margin: 5px 0px;
+}
+
+.form-text input {
+	margin-left: 10px;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0px;
 }

@@ -11,7 +11,6 @@ class Profile(models.Model):
 	user = models.ForeignKey(User)
 	firstname = models.CharField(max_length=30)
 	lastname = models.CharField(max_length=30)
-	age = models.PositiveSmallIntegerField()
 	picture = models.ImageField(upload_to="", blank=True)
 	status = models.CharField(max_length=30)
 
