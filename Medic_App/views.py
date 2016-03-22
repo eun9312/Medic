@@ -3,6 +3,7 @@ from django.db import transaction
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 from Medic_App.forms import *
 
@@ -18,9 +19,11 @@ def info(request):
 def checkup(request):
 	return render(request, 'check-up.html', {})
 
+@login_required
 def medicchat(request):
 	return render(request, 'medic_chat.html', {})
 
+@login_required
 def patientschat(request):
 	return render(request, 'patients_chat.html', {})
 

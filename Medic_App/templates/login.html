@@ -7,7 +7,7 @@ Log in
 {% block content %}
 <form class="form-center" method="post" action="{% url 'django.contrib.auth.views.login' %}">
 
-<h1>Please Log In </h1>
+<h2>Please Log In </h2>
 {{ form.username }}
 {{ form.password }}
 {% if form.errors %}

@@ -6,7 +6,7 @@ Register
 
 {% block content %}
 <form class="form-center" method="post" action="{% url 'register' %}">
-<h1>Register</h1>
+<h2>Register</h2>
 {% for field in form.visible_fields %}
 {{field}}
 <span class="error">{{field.errors}}</span>

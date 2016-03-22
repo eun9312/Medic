@@ -5,6 +5,13 @@ Confirmation
 {% endblock %}
 
 {% block content %}
-<h1>Confirmed</h1>
-<a class="btn btn-primary" href="{% url 'home' %}">Home</a>
+<h1>Email Confirmed!</h1>
+<h4>Please sign in to fully access Medic.</h4>
+{% endblock %}
+
+{% block logo-block %}
+<div class="logo-block">
+{% load staticfiles %}
+<img alt="logo" src="{% static "img/logo.png" %}">
+</div>
 {% endblock %}

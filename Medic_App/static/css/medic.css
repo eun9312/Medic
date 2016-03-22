@@ -33,6 +33,26 @@ nav a p:hover {
 	margin-left: 15px !important;
 }
 
+h1 {
+	text-align: center !important;
+	margin-top: 70px !important;
+}
+
+h4 {
+	text-align: center !important;
+}
+
+.logo-block {
+	background: white;
+	height: 300px;
+	margin-top: 100px;
+	text-align: center;
+}
+
+.logo-block img {
+	margin-top: 110px;
+}
+
 .form-center {
 	max-width:350px;
 	margin: 5px auto;
