@@ -1,6 +1,5 @@
 body {
 	padding-top: 70px;
-	padding-bottom: 30px;
 	background: #64B143 !important;
 	color: white;
 }
@@ -68,7 +67,7 @@ h4 {
 }
 
 h2 {
-	margin-top: 50px !important;
+	margin-top: 40px !important;
 }
 
 .title {
@@ -78,7 +77,7 @@ h2 {
 .logo-block {
 	background: white;
 	display: block;
-	padding: 70px 50px;
+	padding: 70px 50px 100px 50px;
 	margin-top: 100px;
 	text-align: center;
 	color: #64B143 !important;
@@ -94,7 +93,7 @@ h2 {
 
 .form-center {
 	max-width:350px;
-	margin: 5px auto 5px auto;
+	margin: 5px auto;
 }
 
 .form-control {
@@ -142,4 +141,8 @@ ul {
 
 #doctor_register {
 	display: none;
+}
+
+.bottom-text {
+	margin-bottom: 50px !important;
 }

@@ -6,12 +6,5 @@ Confirmation
 
 {% block content %}
 <h1>Email confirmation has been sent to</h1>
-<h4>{{email}}</h4>
-{% endblock %}
-
-{% block logo-block %}
-<div class="logo-block">
-{% load staticfiles %}
-<img alt="logo" src="{% static "img/logo.png" %}">
-</div>
+<h4 class="bottom-text">{{email}}</h4>
 {% endblock %}

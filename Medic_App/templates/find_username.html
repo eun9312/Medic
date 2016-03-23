@@ -17,13 +17,6 @@ Find Username
 </p>
 {% endif %}
 {% csrf_token %}
-<input class="btn btn-lg btn-default btn-block" type="submit" value="Send email">
+<input class="btn btn-lg btn-default btn-block bottom-text" type="submit" value="Send email">
 </form>
-{% endblock %}
-
-{% block logo-block %}
-<div class="logo-block">
-{% load staticfiles %}
-<img alt="logo" src="{% static "img/logo.png" %}">
-</div>
 {% endblock %}
