@@ -106,9 +106,8 @@ h2 {
 
 .form-text {
 	height:auto;
-	padding:12px;
 	font-size:16px;
-	margin: 5px 0px;
+	margin: 20px 0px;
 }
 
 .form-text input {
@@ -139,4 +138,8 @@ ul {
 .form-intro .btn-info {
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+
+#doctor_register {
+	display: none;
 }
