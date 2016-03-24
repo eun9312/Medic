@@ -10,7 +10,7 @@ Register
 {% endblock %}
 
 {% block content %}
-<form class="form-center" method="post" action="{% url 'register' %}">
+<form class="form-center" method="post" action="{% url 'register' %}" enctype="multipart/form-data">
 <h2>Register</h2>
 {% for field in form.visible_fields %}
 {{field}}
@@ -24,15 +24,26 @@ Register
 <input class="is_doctor" type="radio" name="status" value="patient" checked> No
 </p>
 <div id='doctor_register'>
-<p class="form-text">
-Government Issued Photo ID:
-</p>
-<p class="form-text">
-License to Practice Medicine:
-</p>
+<div class="form-text">
+Government Issued Photo ID** <br />
+<div class="fileUpload btn btn-default">
+    <span>Upload</span>
+    <input id="uploadBtn1" type="file" class="upload" name="file1"/>
+</div>
+<input id="uploadFile1" placeholder="Choose File" disabled="disabled" class="choose_file"/>
+</div>
+<div class="form-text">
+License to Practice Medicine** <br />
+<div class="fileUpload btn btn-default">
+    <span>Upload</span>
+    <input id="uploadBtn2" type="file" class="upload" name="file2"/>
+</div>
+<input id="uploadFile2" placeholder="Choose File" disabled="disabled" class="choose_file"/>
+</div>
 </div>
 {% csrf_token %}
 <input class="btn btn-lg btn-default btn-block" type="submit" value="Register" />
-<h6 class="bottom-text">*It may take a few business days to confirm medical doctor.</h6>
+<h6>*It may take a few business days to confirm medical doctor.</h6>
+<h6 class="bottom-text">**A valid ID and a license to practice medicine are required to be registered as medical doctor.</h6>
 </form>
 {% endblock %}

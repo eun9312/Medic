@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db import transaction
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.tokens import default_token_generator
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, Http404
 import random
 import string
 
@@ -42,6 +43,10 @@ def register(request):
 
     if not form.is_valid():
         return render(request, 'register.html', context)
+    if not request.POST['status']:
+	return render(request, 'register.html', context)
+    if request.POST['status'] == 'doctor' and (len(request.FILES) != 2):
+	return render(request, 'register.html', context)
 
     new_user = User.objects.create_user(username=form.cleaned_data['username'], 
                                         password=form.cleaned_data['password1'],
@@ -56,6 +61,8 @@ def register(request):
     email_body = """
 Please click the link below to verify your email address and complete the registration:
 http://%s%s
+
+If you registered as medical doctor, it may take a few days until the administrator confirms your proof to practice medicine.
 """ % (request.get_host(), 
        reverse('confirm', args=(new_user.username, token)))
 
@@ -74,6 +81,23 @@ http://%s%s
     new_status = Status(user=new_user, status=status)
     new_status.save()
 
+    if status == 'doctor':
+	admin_email_body = """
+Username: %s
+First Name: %s
+Last Name: %s
+email: %s
+confirmation link: http://%s%s
+""" % (new_user.username, new_user.first_name, new_user.last_name, new_user.email,
+       request.get_host(), reverse('confirm_doctor', args=(new_user.username, token)))
+        admin_notify = EmailMessage(subject="New user doctor confirmation", body=admin_email_body,
+			from_email="medic.email.service@gmail.com", to=["medic.email.service@gmail.com"])
+	file1 = request.FILES['file1']
+	file2 = request.FILES['file2']
+	admin_notify.attach(file1.name, file1.read(), file1.content_type)
+	admin_notify.attach(file2.name, file2.read(), file2.content_type)
+	admin_notify.send()
+
     return render(request, 'needs-confirmation.html', context)
 
 @transaction.atomic
@@ -84,6 +108,20 @@ def confirm_registration(request, username, token):
         raise Http404
 
     user.is_active = True
+    user.save()
+    return render(request, 'confirmed.html', {})
+    
+@transaction.atomic
+def confirm_doctor(request, username, token):
+    user = get_object_or_404(User, username=username)
+
+    if not default_token_generator.check_token(user, token):
+        raise Http404
+
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+    	raise Http404
+
+    user.status = 'doctor-confirmed'
     user.save()
     return render(request, 'confirmed.html', {})
 

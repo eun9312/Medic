@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^register$', medic_views.register, name='register'),
     url(r'^confirm-registration/(?P<username>\w+)/(?P<token>[a-z0-9\-]+)$',
         medic_views.confirm_registration, name='confirm'),
+   url(r'^confirm-doctor/(?P<username>\w+)/(?P<token>[a-z0-9\-]+)$',
+        medic_views.confirm_doctor, name='confirm_doctor'),
     url(r'^find_username$', medic_views.find_username, name='find_username'),
     url(r'^find_password$', medic_views.find_password, name='find_password'),
     
