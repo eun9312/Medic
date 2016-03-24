@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+  <title>Admin Page</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
+</head>
+
+<body>
+<h1>Admin Page</h1>
+<table>
+<tr>
+<td>Username</td>
+<td>First Name</td>
+<td>Last Name</td>
+<td>Email Address</td>
+<td>Status</td>
+</tr>
+{% for status in list %}
+<tr>
+<td>{{status.user.username}}</td>
+<td>{{status.user.first_name}}</td>
+<td>{{status.user.last_name}}</td>
+<td>{{status.user.email}}</td>
+<td>{{status.status}}</td>
+</tr>
+{% endfor %}
+</body>
+</html>

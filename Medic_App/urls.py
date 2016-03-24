@@ -21,6 +21,7 @@ from Medic_App import forms
 
 urlpatterns = [
     url(r'^$', medic_views.home, name='home'),
+    url(r'^admin$', medic_views.admin, name='admin'),
     url(r'^info$', medic_views.info, name='info'),
     url(r'^check-up$', medic_views.checkup, name='check-up'),
     url(r'^medic_chat$', medic_views.medicchat, name='medic_chat'),

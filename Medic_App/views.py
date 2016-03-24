@@ -16,6 +16,10 @@ from Medic_App.forms import *
 def home(request):
 	return render(request, 'index.html', {})
 
+def admin(request):
+	users = Status.objects.all()
+	return render(request, 'admin.html', {'list': users})
+
 def info(request):
 	return render(request, 'info.html', {})
 
@@ -113,16 +117,17 @@ def confirm_registration(request, username, token):
     
 @transaction.atomic
 def confirm_doctor(request, username, token):
-    user = get_object_or_404(User, username=username)
-
-    if not default_token_generator.check_token(user, token):
-        raise Http404
-
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
     	raise Http404
 
-    user.status = 'doctor-confirmed'
-    user.save()
+    user = get_object_or_404(User, username=username)
+    if not default_token_generator.check_token(user, token):
+        raise Http404
+    user_status = get_object_or_404(Status, user=user)
+
+
+    user_status.status = 'doctor-confirmed'
+    user_status.save()
     return render(request, 'confirmed.html', {})
 
 def find_username(request):
