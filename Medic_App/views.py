@@ -17,6 +17,8 @@ def home(request):
 	return render(request, 'index.html', {})
 
 def admin(request):
+	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+    		raise Http404
 	users = Status.objects.all()
 	return render(request, 'admin.html', {'list': users})
 
