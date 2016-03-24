@@ -1,0 +1,20 @@
+Please check project_specification.pdf for description of the funtionalities.
+
+Sprint 1:
+
+Registration
+-Register as Patient
+-Register as Doctor
+-Email Confirmation
+-Doctor Confirmation
+Log in
+-Log in
+-Find Username
+-Find Password
+Design
+
+Sprint 2:
+Check-up
+-Select Symptoms
+-Edit
+-Disease Information
