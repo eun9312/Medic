@@ -87,10 +87,6 @@ h2 {
 	padding: 0px 40px;
 }
 
-.logo-block img {
-	margin: 30px auto;
-}
-
 .form-center {
 	max-width:350px;
 	margin: 5px auto;
@@ -144,7 +140,7 @@ ul {
 }
 
 .bottom-text {
-	margin-bottom: 50px !important;
+	margin-bottom: 80px !important;
 }
 
 .fileUpload {
@@ -173,4 +169,11 @@ ul {
     background-color: #fff;
 	border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.info-block {
+	background: white;
+	display: block;
+	color: #64B143;
+	padding-top: 20px;
 }
