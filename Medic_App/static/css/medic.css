@@ -4,6 +4,23 @@ body {
 	color: white;
 }
 
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+	background: white;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+
+}
+ 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #089CCB; 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+
 nav a {
 	padding: 0 !important;
 }
@@ -176,4 +193,17 @@ ul {
 	display: block;
 	color: #64B143;
 	padding-top: 20px;
+}
+
+.selection_list {
+	background-color: white;
+	color: #64B143;;
+	overflow-y: scroll;
+	width: 100%;
+	height: 350px;
+	border-radius: 10px;
+}
+
+.info-block form {
+	margin-bottom:15px;
 }

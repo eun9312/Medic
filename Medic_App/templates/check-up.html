@@ -5,5 +5,47 @@ Check-up
 {% endblock %}
 
 {% block content %}
-Check-up
+<div class="row">
+  <div class="col-md-4">
+    <h2>Symptom Type</h2><br />
+	<div class="selection_list">
+	</div>
+  </div>
+  <div class="col-md-4">
+    <h2>Symptom Detail</h2><br />
+	<div class="selection_list">
+	</div>
+  </div>
+  <div class="col-md-4">
+    <h2>Your List</h2><br />
+	<div class="selection_list">
+	</div>
+  </div>
+  <div class="bottom-text">
+  <form class="form-intro" method="get" action="#">
+	<button class="btn btn-lg btn-default">Check-up</button>
+  </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block logo-block %}
+<div class="info-block">
+<div class="container" style="text-align: center;">
+<h2>Are You a Medical Doctor?</h2>
+<br />
+    <form method="get" action="#">
+    <button class="btn btn-lg btn-info">Add New Symptom</button>
+    </form>
+
+    <form method="get" action="#">
+    <button class="btn btn-lg btn-info">Add New Disease</button>
+    </form>
+
+    <form class="bottom-text" method="get" action="#">
+    <button class="btn btn-lg btn-info">Edit Disease</button>
+    </form>
+
+</div>
+</div>
 {% endblock %}

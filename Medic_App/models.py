@@ -11,8 +11,12 @@ class Status(models.Model):
 	user = models.ForeignKey(User)
 	status = models.CharField(max_length=30)
 
+class SymptomType(models.Model):
+	name = models.CharField(max_length=30)
+
 class Symptom(models.Model):
 	name = models.CharField(max_length=30)
+	symptomType = models.ForeignKey(SymptomType)
 
 class Disease(models.Model):
 	name = models.CharField(max_length=30)
