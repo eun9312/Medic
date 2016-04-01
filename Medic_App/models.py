@@ -13,13 +13,15 @@ class Status(models.Model):
 
 class SymptomType(models.Model):
 	name = models.CharField(max_length=30)
+	added_by = models.ForeignKey(User)
 
 class Symptom(models.Model):
 	name = models.CharField(max_length=30)
 	symptomType = models.ForeignKey(SymptomType)
+	added_by = models.ForeignKey(User)
 
 class Disease(models.Model):
 	name = models.CharField(max_length=30)
 	symptoms = models.ManyToManyField(Symptom, related_name="symptoms")
-	description = models.CharField(max_length=500)
+	added_by = models.ForeignKey(User)
 

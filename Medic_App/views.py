@@ -26,7 +26,9 @@ def info(request):
 	return render(request, 'info.html', {})
 
 def checkup(request):
-	return render(request, 'check-up.html', {})
+    symptomTypeList = SymptomType.objects.all()
+    symptomList = Symptom.objects.all()	
+    return render(request, 'check-up.html', {'symptomTypeList':symptomTypeList, 'symptomList':symptomList})
 
 @login_required
 def medicchat(request):
@@ -80,14 +82,14 @@ If you registered as medical doctor, it may take a few days until the administra
     context['email'] = form.cleaned_data['email']
 
     if (request.POST['status'] == 'doctor') :
-	    status = 'doctor'
+	    status = 'need-confirmation'
     else:
 	    status = 'patient'
 
     new_status = Status(user=new_user, status=status)
     new_status.save()
 
-    if status == 'doctor':
+    if status == 'need-confirmation':
 	admin_email_body = """
 Username: %s
 First Name: %s
@@ -95,7 +97,7 @@ Last Name: %s
 email: %s
 confirmation link: http://%s%s
 """ % (new_user.username, new_user.first_name, new_user.last_name, new_user.email,
-       request.get_host(), reverse('confirm_doctor', args=(new_user.username, token)))
+       request.get_host(), reverse('confirm_doctor', kwargs={'username':new_user.username}))
         admin_notify = EmailMessage(subject="New user doctor confirmation", body=admin_email_body,
 			from_email="medic.email.service@gmail.com", to=["medic.email.service@gmail.com"])
 	file1 = request.FILES['file1']
@@ -118,17 +120,14 @@ def confirm_registration(request, username, token):
     return render(request, 'confirmed.html', {})
     
 @transaction.atomic
-def confirm_doctor(request, username, token):
+def confirm_doctor(request, username):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
     	raise Http404
 
     user = get_object_or_404(User, username=username)
-    if not default_token_generator.check_token(user, token):
-        raise Http404
     user_status = get_object_or_404(Status, user=user)
 
-
-    user_status.status = 'doctor-confirmed'
+    user_status.status = 'doctor'
     user_status.save()
     return render(request, 'confirmed.html', {})
 
@@ -197,4 +196,60 @@ Your new password is
     context['email'] = email
 
     return render(request, 'needs-confirmation.html', context)
+
+def add_symptom(request):
+    if not request.user.is_authenticated():
+        return render(request, 'not_doc.html', {})
+    user_status = get_object_or_404(Status, user=request.user)
+    if user_status.status == "patient":
+        return render(request, 'not_doc.html', {})
+    if user_status.status == "need-confirmation":
+        return render(request, 'not_confirmed_doc.html', {})
+    if user_status.status != "doctor":
+	return Http404
+
+    symptomTypeList = SymptomType.objects.all()
+    return render(request, 'add_symptom.html', {'symptomTypeList': symptomTypeList})
+
+@transaction.atomic
+def add_symptom_type(request):
+    symptomTypeList = SymptomType.objects.all()
+    if not request.POST['symptom_type']:
+        return render(request, 'add_symptom.html', {'errortype': 'Please enter a valid symptom type.',
+		'symptomTypeList': symptomTypeList})
+
+    try:
+        type = SymptomType.objects.get(name=request.POST['symptom_type'])
+	return render(request, 'add_symptom.html', {'errortype': 'The symptom type you entered already exists in the database.',
+		'symptomTypeList': symptomTypeList})
+    except ObjectDoesNotExist:
+	type = SymptomType(name=request.POST['symptom_type'], added_by=request.user)
+	type.save()
+	return render(request, 'updated.html', {})
+
+@transaction.atomic
+def add_symptom_detail(request):
+    symptomTypeList = SymptomType.objects.all()
+    if not request.POST['symptom_type'] or request.POST['symptom_type'] == '':
+        return render(request, 'add_symptom.html', {'errordetail': 'Please select a symptom type.',
+		'symptomTypeList': symptomTypeList})
+    if not request.POST['symptom_detail']:
+        return render(request, 'add_symptom.html', {'errordetail': 'Please enter a valid symptom detail.',
+		'symptomTypeList': symptomTypeList})
+
+    try:
+        detail = Symptom.objects.get(name=request.POST['symptom_detail'])
+	if (detail.symptomType.name == request.POST['symptom_type']):
+            return render(request, 'add_symptom.html', {'errordetail': 'The symptom detail you entered already exists in the database.',
+		'symptomTypeList': symptomTypeList})
+	else: raise ObjectDoesNotExist()
+    except ObjectDoesNotExist:
+	type = get_object_or_404(SymptomType, name=request.POST['symptom_type'])
+	detail = Symptom(name=request.POST['symptom_detail'], symptomType=type, added_by=request.user)
+	detail.save()
+	return render(request, 'updated.html', {})
+    return render(request, 'updated.html', {})
+
+def add_disease(request):
+    return render(request, 'add_disease.html', {})
 

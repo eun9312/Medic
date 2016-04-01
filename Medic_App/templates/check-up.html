@@ -7,17 +7,23 @@ Check-up
 {% block content %}
 <div class="row">
   <div class="col-md-4">
-    <h2>Symptom Type</h2><br />
+    <h2>Symptom Type</h2>
 	<div class="selection_list">
+	{% for type in symptomTypeList %}
+	{{type.name}}<br />
+	{% endfor %}
 	</div>
   </div>
   <div class="col-md-4">
-    <h2>Symptom Detail</h2><br />
+    <h2>Symptom Detail</h2>
 	<div class="selection_list">
+	{% for detail in symptomList %}
+	{{detail.name}}<br />
+	{% endfor %}
 	</div>
   </div>
   <div class="col-md-4">
-    <h2>Your List</h2><br />
+    <h2>Your List</h2>
 	<div class="selection_list">
 	</div>
   </div>
@@ -34,11 +40,11 @@ Check-up
 <div class="container" style="text-align: center;">
 <h2>Are You a Medical Doctor?</h2>
 <br />
-    <form method="get" action="#">
+    <form method="get" action="{% url 'add_symptom' %}">
     <button class="btn btn-lg btn-info">Add New Symptom</button>
     </form>
 
-    <form method="get" action="#">
+    <form method="get" action="{% url 'add_disease' %}">
     <button class="btn btn-lg btn-info">Add New Disease</button>
     </form>
 

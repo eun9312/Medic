@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add New Symptom
+{% endblock %}
+
+{% block content %}
+<form class="form-center" method="post" action="{% url 'add_symptom_type'%}">
+<h2>Add New Symptom Type</h2>
+<input class="form-control" type="text" name="symptom_type" placeholder="New Symptom Type" maxlength="30">
+{% if errortype %}
+<p class="error">
+{{errortype}}
+</p>
+{% endif %}
+{% csrf_token %}
+<input class="btn btn-lg btn-default btn-block bottom-text" type="submit" value="Add">
+</form>
+{% endblock %}
+
+{% block logo-block %}
+<div class="info-block">
+<div class="container">
+<form class="form-center" method="post" action="{% url 'add_symptom_detail'%}">
+<h2>Add New Symptom Detail</h2>
+<select name="symptom_type" class="form-control">
+  <option value="">Select Symptom Type</option>
+  {% for type in symptomTypeList %}
+  <option value="{{type.name}}">{{type.name}}</option>
+  {% endfor %}
+</select>
+
+<input class="form-control" type="text" name="symptom_detail" placeholder="New Symptom Detail" maxlength="30">
+{% if errordetail %}
+<p class="error">
+{{errordetail}}
+</p>
+{% endif %}
+{% csrf_token %}
+<input class="btn btn-lg btn-default btn-block bottom-text" type="submit" value="Add">
+</form>
+</div>
+</div>
+{% endblock %}
