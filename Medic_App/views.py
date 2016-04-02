@@ -22,6 +22,13 @@ def admin(request):
 	users = Status.objects.all()
 	return render(request, 'admin.html', {'list': users})
 
+def admin_symptom(request):
+	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+    		raise Http404
+	type = SymptomType.objects.all()
+	detail = Symptom.objects.all()
+	return render(request, 'admin_symptom.html', {'type': type, 'detail': detail})
+
 def info(request):
 	return render(request, 'info.html', {})
 
@@ -96,8 +103,10 @@ First Name: %s
 Last Name: %s
 email: %s
 confirmation link: http://%s%s
+declination link: http://%s%s
 """ % (new_user.username, new_user.first_name, new_user.last_name, new_user.email,
-       request.get_host(), reverse('confirm_doctor', kwargs={'username':new_user.username}))
+       request.get_host(), reverse('confirm_doctor', kwargs={'username':new_user.username}),
+       request.get_host(), reverse('confirm_patient', kwargs={'username':new_user.username}))
         admin_notify = EmailMessage(subject="New user doctor confirmation", body=admin_email_body,
 			from_email="medic.email.service@gmail.com", to=["medic.email.service@gmail.com"])
 	file1 = request.FILES['file1']
@@ -129,7 +138,19 @@ def confirm_doctor(request, username):
 
     user_status.status = 'doctor'
     user_status.save()
-    return render(request, 'confirmed.html', {})
+    return redirect(reverse('admin'))
+
+@transaction.atomic
+def confirm_patient(request, username):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+    	raise Http404
+
+    user = get_object_or_404(User, username=username)
+    user_status = get_object_or_404(Status, user=user)
+
+    user_status.status = 'patient'
+    user_status.save()
+    return redirect(reverse('admin'))
 
 def find_username(request):
     context = {}
@@ -252,4 +273,21 @@ def add_symptom_detail(request):
 
 def add_disease(request):
     return render(request, 'add_disease.html', {})
+
+@transaction.atomic
+def delete_symptom_type(request, name):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+        raise Http404
+    type = get_object_or_404(SymptomType, name=name)
+    type.delete()
+    return redirect(reverse('admin_symptom'))
+
+
+@transaction.atomic
+def delete_symptom_detail(request):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+        raise Http404
+    detail = get_object_or_404(Symptom, name=name)
+    detail.delete()
+    return redirect(reverse('admin_symptom'))
 

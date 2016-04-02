@@ -1,14 +1,6 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-  <title>Admin Page</title>
-  {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
-</head>
+{% extends "admin_base.html" %}
 
-<body>
-<h1>Admin Page</h1>
+{% block content %}
 <table>
 <tr>
 <td>Username</td>
@@ -16,6 +8,7 @@
 <td>Last Name</td>
 <td>Email Address</td>
 <td>Status</td>
+<td>Change Status</td>
 </tr>
 {% for status in list %}
 <tr>
@@ -24,7 +17,9 @@
 <td>{{status.user.last_name}}</td>
 <td>{{status.user.email}}</td>
 <td>{{status.status}}</td>
+<td><a href="{% url 'confirm_doctor' status.user.username %}">Make Doctor</a> |
+<a href="{% url 'confirm_patient' status.user.username %}">Make Patient</a></td>
 </tr>
 {% endfor %}
-</body>
-</html>
+</table>
+{% endblock %}
