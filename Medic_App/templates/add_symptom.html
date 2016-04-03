@@ -7,7 +7,7 @@ Add New Symptom
 {% block content %}
 <form class="form-center" method="post" action="{% url 'add_symptom_type'%}">
 <h2>Add New Symptom Type</h2>
-<input class="form-control" type="text" name="symptom_type" placeholder="New Symptom Type" maxlength="30">
+<input class="form-control" type="text" name="symptom_type" placeholder="New Symptom Type" maxlength="50">
 {% if errortype %}
 <p class="error">
 {{errortype}}
@@ -30,7 +30,7 @@ Add New Symptom
   {% endfor %}
 </select>
 
-<input class="form-control" type="text" name="symptom_detail" placeholder="New Symptom Detail" maxlength="30">
+<input class="form-control" type="text" name="symptom_detail" placeholder="New Symptom Detail" maxlength="100">
 {% if errordetail %}
 <p class="error">
 {{errordetail}}

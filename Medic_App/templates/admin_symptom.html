@@ -29,7 +29,7 @@ Symptom Detail
 {% for d in detail %}
 <tr>
 <td>{{d.name}}</td>
-<td>{{d.symptomType}}</td>
+<td>{{d.symptomType.name}}</td>
 <td>{{d.added_by.username}}</td>
 <td><a href="{% url 'delete_symptom_detail' d.name %}">Delete</a></td>
 </tr>

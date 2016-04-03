@@ -197,7 +197,7 @@ ul {
 
 .selection_list {
 	background-color: white;
-	color: #64B143;;
+	color: #64B143;
 	overflow-y: scroll;
 	width: 100%;
 	height: 350px;
@@ -206,4 +206,37 @@ ul {
 
 .info-block form {
 	margin-bottom:15px;
+}
+
+.default_elem {
+	width: 100%;
+	margin: 0px;
+	padding: 15px 20px;
+	font-size: 16px;
+}
+
+.selection_elem {
+	width: 100%;
+	margin: 0px;
+	padding: 15px 20px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.selection_elem:hover {
+	background-color: #089CCB;
+	color: white;
+}
+
+.your_selection_elem {
+	width: 100%;
+	margin: 0px;
+	padding: 15px 20px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.your_selection_elem:hover {
+	background-color: #C1495E;
+	color: white;
 }

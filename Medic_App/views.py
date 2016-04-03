@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, Http404
 import random
 import string
+import json
 
 from Medic_App.forms import *
 
@@ -33,9 +34,8 @@ def info(request):
 	return render(request, 'info.html', {})
 
 def checkup(request):
-    symptomTypeList = SymptomType.objects.all()
-    symptomList = Symptom.objects.all()	
-    return render(request, 'check-up.html', {'symptomTypeList':symptomTypeList, 'symptomList':symptomList})
+    symptomTypeList = SymptomType.objects.order_by('name')
+    return render(request, 'check-up.html', {'symptomTypeList':symptomTypeList})
 
 @login_required
 def medicchat(request):
@@ -229,7 +229,7 @@ def add_symptom(request):
     if user_status.status != "doctor":
 	return Http404
 
-    symptomTypeList = SymptomType.objects.all()
+    symptomTypeList = SymptomType.objects.order_by('name')
     return render(request, 'add_symptom.html', {'symptomTypeList': symptomTypeList})
 
 @transaction.atomic
@@ -290,4 +290,20 @@ def delete_symptom_detail(request):
     detail = get_object_or_404(Symptom, name=name)
     detail.delete()
     return redirect(reverse('admin_symptom'))
+
+def parseDetails(symptom_list):
+    list = []
+    for s in symptom_list:
+        data={}
+	data['name'] = s.name
+	data['type'] = s.symptomType.name
+        list.append(data)
+    return list
+
+def get_detail_list(request):
+    if not 'type' in request.POST or not request.POST['type']:
+        return
+    type = get_object_or_404(SymptomType, name=request.POST['type'])
+    symptom_list = Symptom.objects.filter(symptomType=type).order_by('name')
+    return HttpResponse(json.dumps(parseDetails(symptom_list)), content_type='application/json')
 
