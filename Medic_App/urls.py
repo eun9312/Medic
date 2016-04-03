@@ -44,5 +44,7 @@ urlpatterns = [
     url(r'^add_symptom_detail$', medic_views.add_symptom_detail, name='add_symptom_detail'),
     url(r'^delete_symptom_type/(?P<name>[\w\s]+)$', medic_views.delete_symptom_type, name='delete_symptom_type'),
     url(r'^delete_symptom_detail/(?P<name>[\w\s]+)$', medic_views.delete_symptom_detail, name='delete_symptom_detail'),
+    url(r'^modify_symptom_type/(?P<name>[\w\s]+)$', medic_views.modify_symptom_type, name='modify_symptom_type'),
+    url(r'^modify_symptom_detail/(?P<name>[\w\s]+)$', medic_views.modify_symptom_detail, name='modify_symptom_detail'),
     url(r'^get_detail_list$', medic_views.get_detail_list, name='get_detail_list'),
 ]

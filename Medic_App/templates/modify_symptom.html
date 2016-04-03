@@ -1,0 +1,35 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+{% if type %}
+<form method="post" action="{% url 'modify_symptom_type' type.name %}">
+New Name: (original: {{type.name}}) <br />
+<input type="text" name="symptom_type" maxlength="50">
+{% csrf_token %}
+<input type="submit" value="Modify">
+</form>
+{% endif %}
+
+{% if detail %}
+<form method="post" action="{% url 'modify_symptom_detail' detail.name %}">
+New Name: (original: {{detail.name}})<br />
+<input type="text" name="symptom_detail" maxlength="50">
+{% csrf_token %}
+<input type="submit" value="Modify"><br /><br />
+</form>
+
+<form method="post" action="{% url 'modify_symptom_detail' detail.name %}">
+New Type: (original: {{detail.symptomType.name}})<br />
+<select name="symptom_type">
+  {% for type in typeList %}
+  <option value="{{type.name}}" 
+  {% if type.name == detail.symptomType.name %} selected
+  {% endif %}
+  >{{type.name}}</option>
+  {% endfor %}
+{% csrf_token %}
+<input type="submit" value="Modify">
+</form>
+{% endif %}
+
+{% endblock %}

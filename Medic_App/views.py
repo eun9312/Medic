@@ -234,6 +234,16 @@ def add_symptom(request):
 
 @transaction.atomic
 def add_symptom_type(request):
+    if not request.user.is_authenticated():
+        return render(request, 'not_doc.html', {})
+    user_status = get_object_or_404(Status, user=request.user)
+    if user_status.status == "patient":
+        return render(request, 'not_doc.html', {})
+    if user_status.status == "need-confirmation":
+        return render(request, 'not_confirmed_doc.html', {})
+    if user_status.status != "doctor":
+	return Http404
+
     symptomTypeList = SymptomType.objects.all()
     if not request.POST['symptom_type']:
         return render(request, 'add_symptom.html', {'errortype': 'Please enter a valid symptom type.',
@@ -250,6 +260,16 @@ def add_symptom_type(request):
 
 @transaction.atomic
 def add_symptom_detail(request):
+    if not request.user.is_authenticated():
+        return render(request, 'not_doc.html', {})
+    user_status = get_object_or_404(Status, user=request.user)
+    if user_status.status == "patient":
+        return render(request, 'not_doc.html', {})
+    if user_status.status == "need-confirmation":
+        return render(request, 'not_confirmed_doc.html', {})
+    if user_status.status != "doctor":
+	return Http404
+
     symptomTypeList = SymptomType.objects.all()
     if not request.POST['symptom_type'] or request.POST['symptom_type'] == '':
         return render(request, 'add_symptom.html', {'errordetail': 'Please select a symptom type.',
@@ -284,11 +304,52 @@ def delete_symptom_type(request, name):
 
 
 @transaction.atomic
-def delete_symptom_detail(request):
+def delete_symptom_detail(request, name):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
     detail = get_object_or_404(Symptom, name=name)
     detail.delete()
+    return redirect(reverse('admin_symptom'))
+
+@transaction.atomic
+def modify_symptom_type(request, name):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+        raise Http404
+    type = get_object_or_404(SymptomType, name=name)
+
+    if request.method == 'GET':
+	return render(request, 'modify_symptom.html', {'type': type})
+
+    if not request.POST.get('symptom_type', False):
+	return render(request, 'modify_symptom.html', {'type': type})
+
+    type.name = request.POST['symptom_type']
+    type.save()
+
+    return redirect(reverse('admin_symptom'))
+
+
+@transaction.atomic
+def modify_symptom_detail(request, name):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+        raise Http404
+    detail = get_object_or_404(Symptom, name=name)
+    typeList = SymptomType.objects.order_by('name')
+
+    if request.method == 'GET':
+	return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
+
+    if not request.POST.get('symptom_type', False) and not request.POST.get('symptom_detail', False):
+	return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
+
+    if request.POST.get('symptom_type', False):
+        new_type = get_object_or_404(SymptomType, name=request.POST['symptom_type'])
+        detail.symptomType = new_type
+	detail.save()
+    if request.POST.get('symptom_detail', False):
+        detail.name = request.POST['symptom_detail']
+	detail.save()
+
     return redirect(reverse('admin_symptom'))
 
 def parseDetails(symptom_list):
