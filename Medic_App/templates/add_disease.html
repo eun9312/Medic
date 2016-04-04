@@ -3,3 +3,73 @@
 {% block title %}
 Add New Disease
 {% endblock %}
+
+{% block js_files %}
+{% load staticfiles %}
+<script src="{% static 'js/check-up.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'add_disease'%}">
+<div class="form-center">
+<h2>Add New Disease</h2>
+<input class="form-control" type="text" name="name" placeholder="New Disease Name" maxlength="50">
+{% if error_name %}
+<p class="error">
+{{error_name}}
+</p>
+{% endif %}
+<select name="commonness" class="form-control">
+	<option value="">Select Commonness</option>
+	<option value="very uncommon">Very Uncommon</option>
+	<option value="uncommon">Uncommon</option>
+	<option value="common">Common</option>
+	<option value="very common">Very Common</option>
+</select>
+{% if error_common %}
+<p class="error">
+{{error_common}}
+</p>
+{% endif %}
+</div>
+<div class="row" style="margin-bottom:40px;">
+  <div class="col-md-4">
+    <h2>Symptom Type</h2>
+	<div class="selection_list" id="symptom_type_list">
+	{% for type in symptomTypeList %}
+	<div class="selection_elem" id="type_elem_{{type.pk}}" onclick="select_type({{type.pk}})">
+	{{type.name}}
+	</div>
+	{% endfor %}
+	</div>
+  </div>
+  <div class="col-md-4">
+    <h2>Symptom Detail</h2>
+	<div class="selection_list" id="symptom_detail_list">
+		<div class="default_elem">
+		Please Select a Symptom Type.
+		</div>
+	</div>
+  </div>
+  <div class="col-md-4">
+    <h2>Disease Symptoms</h2>
+	<div class="selection_list" id="your_list">
+		<div class="default_elem">
+		Please Select a Symptom Detail.
+		</div>
+	</div>
+  </div>
+</div>
+{% if error_select %}
+<p class="error" style="text-align: center; margin-top: -30px;">
+{{error_select}}
+</p>
+{% endif %}
+<div id="hidden_checkboxes">
+</div>
+<div class="bottom-text form-center">
+{% csrf_token %}
+    <input class="btn btn-lg btn-default btn-block bottom-text" type="submit" value="Add New Disease">
+</div>
+</form>
+{% endblock %}

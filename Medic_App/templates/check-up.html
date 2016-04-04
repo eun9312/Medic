@@ -15,7 +15,7 @@ Check-up
     <h2>Symptom Type</h2>
 	<div class="selection_list" id="symptom_type_list">
 	{% for type in symptomTypeList %}
-	<div class="selection_elem" id="type_elem_{{type.name}}" onclick="select_type('{{type.name}}')">
+	<div class="selection_elem" id="type_elem_{{type.pk}}" onclick="select_type({{type.pk}})">
 	{{type.name}}
 	</div>
 	{% endfor %}
@@ -30,7 +30,7 @@ Check-up
 	</div>
   </div>
   <div class="col-md-4">
-    <h2>Your List</h2>
+    <h2>Your Symptoms</h2>
 	<div class="selection_list" id="your_list">
 		<div class="default_elem">
 		Please Select a Symptom Detail.
@@ -39,7 +39,9 @@ Check-up
   </div>
   <div class="bottom-text">
   <form class="form-intro" method="get" action="#">
-	<button class="btn btn-lg btn-default">Get Checked-up</button>
+    <div id="hidden_checkboxes">
+    </div>
+	<input class="btn btn-lg btn-default" type="submit" value="Get Checked-up">
   </form>
   </div>
 </div>

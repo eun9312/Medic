@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if type %}
-<form method="post" action="{% url 'modify_symptom_type' type.name %}">
+<form method="post" action="{% url 'modify_symptom_type' type.pk %}">
 New Name: (original: {{type.name}}) <br />
 <input type="text" name="symptom_type" maxlength="50">
 {% csrf_token %}
@@ -11,18 +11,18 @@ New Name: (original: {{type.name}}) <br />
 {% endif %}
 
 {% if detail %}
-<form method="post" action="{% url 'modify_symptom_detail' detail.name %}">
+<form method="post" action="{% url 'modify_symptom_detail' detail.pk %}">
 New Name: (original: {{detail.name}})<br />
 <input type="text" name="symptom_detail" maxlength="50">
 {% csrf_token %}
 <input type="submit" value="Modify"><br /><br />
 </form>
 
-<form method="post" action="{% url 'modify_symptom_detail' detail.name %}">
+<form method="post" action="{% url 'modify_symptom_detail' detail.pk %}">
 New Type: (original: {{detail.symptomType.name}})<br />
 <select name="symptom_type">
   {% for type in typeList %}
-  <option value="{{type.name}}" 
+  <option value="{{type.pk}}" 
   {% if type.name == detail.symptomType.name %} selected
   {% endif %}
   >{{type.name}}</option>

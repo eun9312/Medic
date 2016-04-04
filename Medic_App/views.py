@@ -30,6 +30,12 @@ def admin_symptom(request):
 	detail = Symptom.objects.all()
 	return render(request, 'admin_symptom.html', {'type': type, 'detail': detail})
 
+def admin_disease(request):
+	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+    		raise Http404
+	disease = Disease.objects.all()
+	return render(request, 'admin_disease.html', {'disease': disease})
+
 def info(request):
 	return render(request, 'info.html', {})
 
@@ -278,44 +284,80 @@ def add_symptom_detail(request):
         return render(request, 'add_symptom.html', {'errordetail': 'Please enter a valid symptom detail.',
 		'symptomTypeList': symptomTypeList})
 
-    try:
-        detail = Symptom.objects.get(name=request.POST['symptom_detail'])
-	if (detail.symptomType.name == request.POST['symptom_type']):
+    detail = Symptom.objects.filter(name=request.POST['symptom_detail'])
+    for d in detail:
+        if (d.symptomType.pk == request.POST['symptom_type']):
             return render(request, 'add_symptom.html', {'errordetail': 'The symptom detail you entered already exists in the database.',
-		'symptomTypeList': symptomTypeList})
-	else: raise ObjectDoesNotExist()
-    except ObjectDoesNotExist:
-	type = get_object_or_404(SymptomType, name=request.POST['symptom_type'])
-	detail = Symptom(name=request.POST['symptom_detail'], symptomType=type, added_by=request.user)
-	detail.save()
-	return render(request, 'updated.html', {})
+                'symptomTypeList': symptomTypeList})
+
+    type = get_object_or_404(SymptomType, pk=request.POST['symptom_type'])
+    new_detail = Symptom(name=request.POST['symptom_detail'], symptomType=type, added_by=request.user)
+    new_detail.save()
     return render(request, 'updated.html', {})
 
-def add_disease(request):
-    return render(request, 'add_disease.html', {})
 
 @transaction.atomic
-def delete_symptom_type(request, name):
+def add_disease(request):
+    if not request.user.is_authenticated():
+        return render(request, 'not_doc.html', {})
+    user_status = get_object_or_404(Status, user=request.user)
+    if user_status.status == "patient":
+        return render(request, 'not_doc.html', {})
+    if user_status.status == "need-confirmation":
+        return render(request, 'not_confirmed_doc.html', {})
+    if user_status.status != "doctor":
+	return Http404
+
+    symptomTypeList = SymptomType.objects.order_by('name')
+
+    if request.method == 'GET':
+        return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList})
+
+    if not request.POST['name']:
+        error_name = "Please enter a valid name of the new disease."
+	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_name': error_name})
+
+    if not request.POST['commonness'] or request.POST['commonness'] == '':
+        error_common = "Please select commonness of the new disease."
+	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_common': error_common})
+    if not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
+        error_select = "Please select at least one symptom."
+	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_select': error_select})
+
+    disease = Disease(name=request.POST['name'], commonness=request.POST['commonness'], added_by=request.user)
+    disease.save()
+
+    for symptom in request.POST.getlist('selected') :
+        detail = get_object_or_404(Symptom, pk=symptom)
+        disease.symptoms.add(detail)
+
+    return render(request, 'updated.html', {})
+
+
+@transaction.atomic
+def delete_symptom_type(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
-    type = get_object_or_404(SymptomType, name=name)
+
+    type = get_object_or_404(SymptomType, pk=pk)
     type.delete()
     return redirect(reverse('admin_symptom'))
 
 
 @transaction.atomic
-def delete_symptom_detail(request, name):
+def delete_symptom_detail(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
-    detail = get_object_or_404(Symptom, name=name)
+
+    detail = get_object_or_404(Symptom, pk=pk)
     detail.delete()
     return redirect(reverse('admin_symptom'))
 
 @transaction.atomic
-def modify_symptom_type(request, name):
+def modify_symptom_type(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
-    type = get_object_or_404(SymptomType, name=name)
+    type = get_object_or_404(SymptomType, pk=pk)
 
     if request.method == 'GET':
 	return render(request, 'modify_symptom.html', {'type': type})
@@ -330,25 +372,26 @@ def modify_symptom_type(request, name):
 
 
 @transaction.atomic
-def modify_symptom_detail(request, name):
+def modify_symptom_detail(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
-    detail = get_object_or_404(Symptom, name=name)
+    detail = get_object_or_404(Symptom, pk=pk)
     typeList = SymptomType.objects.order_by('name')
 
     if request.method == 'GET':
-	return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
+        return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
 
     if not request.POST.get('symptom_type', False) and not request.POST.get('symptom_detail', False):
-	return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
+        return render(request, 'modify_symptom.html', {'detail': detail, 'typeList': typeList})
 
     if request.POST.get('symptom_type', False):
-        new_type = get_object_or_404(SymptomType, name=request.POST['symptom_type'])
+        new_type = get_object_or_404(SymptomType, pk=request.POST['symptom_type'])
         detail.symptomType = new_type
-	detail.save()
+        detail.save()
+
     if request.POST.get('symptom_detail', False):
         detail.name = request.POST['symptom_detail']
-	detail.save()
+        detail.save()
 
     return redirect(reverse('admin_symptom'))
 
@@ -356,15 +399,24 @@ def parseDetails(symptom_list):
     list = []
     for s in symptom_list:
         data={}
+	data['pk'] = s.pk
 	data['name'] = s.name
 	data['type'] = s.symptomType.name
         list.append(data)
     return list
 
 def get_detail_list(request):
-    if not 'type' in request.POST or not request.POST['type']:
+    if not 'pk' in request.POST or not request.POST['pk']:
         return
-    type = get_object_or_404(SymptomType, name=request.POST['type'])
+    type = get_object_or_404(SymptomType, pk=request.POST['pk'])
     symptom_list = Symptom.objects.filter(symptomType=type).order_by('name')
     return HttpResponse(json.dumps(parseDetails(symptom_list)), content_type='application/json')
+
+def delete_disease(request, pk):
+    if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
+        raise Http404
+
+    type = get_object_or_404(Disease, pk=pk)
+    type.delete()
+    return redirect(reverse('admin_disease'))
 

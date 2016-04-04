@@ -26,7 +26,7 @@ Add New Symptom
 <select name="symptom_type" class="form-control">
   <option value="">Select Symptom Type</option>
   {% for type in symptomTypeList %}
-  <option value="{{type.name}}">{{type.name}}</option>
+  <option value="{{type.pk}}">{{type.name}}</option>
   {% endfor %}
 </select>
 

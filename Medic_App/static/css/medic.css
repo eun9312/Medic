@@ -240,3 +240,7 @@ ul {
 	background-color: #C1495E;
 	color: white;
 }
+
+#hidden_checkboxes {
+	display: none;
+}

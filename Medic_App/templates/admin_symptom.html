@@ -13,8 +13,8 @@ Symptom Type
 <tr>
 <td>{{t.name}}</td>
 <td>{{t.added_by.username}}</td>
-<td><a href="{% url 'delete_symptom_type' t.name %}">Delete</a> |
-<a href="{% url 'modify_symptom_type' t.name %}">Modify</a></td>
+<td><a href="{% url 'delete_symptom_type' t.pk %}">Delete</a> |
+<a href="{% url 'modify_symptom_type' t.pk %}">Modify</a></td>
 </tr>
 {% endfor %}
 </table>
@@ -32,8 +32,8 @@ Symptom Detail
 <td>{{d.name}}</td>
 <td>{{d.symptomType.name}}</td>
 <td>{{d.added_by.username}}</td>
-<td><a href="{% url 'delete_symptom_detail' d.name %}">Delete</a> |
-<a href="{% url 'modify_symptom_detail' d.name %}">Modify</a></td>
+<td><a href="{% url 'delete_symptom_detail' d.pk %}">Delete</a> |
+<a href="{% url 'modify_symptom_detail' d.pk %}">Modify</a></td>
 </tr>
 {% endfor %}
 </table>

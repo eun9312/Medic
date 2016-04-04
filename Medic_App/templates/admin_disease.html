@@ -1,0 +1,28 @@
+{% extends "admin_base.html" %}
+
+{% block content %}
+<br />
+Disease
+<table>
+<tr>
+<td>Name</td>
+<td>Commonness</td>
+<td>Symptoms</td>
+<td>Added by</td>
+<td>Change</td>
+</tr>
+{% for d in disease %}
+<tr>
+<td>{{d.name}}</td>
+<td>{{d.commonness}}</td>
+<td>{% for s in d.symptoms.all %}
+{{s.symptomType.name}}: {{s.name}}<br />
+{% endfor %}
+</td>
+<td>{{d.added_by.username}}</td>
+<td><a href="{% url 'delete_disease' d.pk %}">Delete</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
