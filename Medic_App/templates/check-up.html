@@ -37,14 +37,16 @@ Check-up
 		</div>
 	</div>
   </div>
-  <div class="bottom-text">
-  <form class="form-intro" method="get" action="#">
+</div>
+  <form class="form-intro" method="post" action="{% url 'get_checked_up' %}">
     <div id="hidden_checkboxes">
     </div>
+	<div class="bottom-text">
+	{% csrf_token %}
 	<input class="btn btn-lg btn-default" type="submit" value="Get Checked-up">
+	</div>
   </form>
-  </div>
-</div>
+
 {% endblock %}
 
 {% block logo-block %}

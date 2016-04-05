@@ -420,3 +420,8 @@ def delete_disease(request, pk):
     type.delete()
     return redirect(reverse('admin_disease'))
 
+def get_checked_up(request):
+    if not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
+	return render(request, 'no_select.html', {})
+    return render(request, 'get_checked_up.html', {})
+
