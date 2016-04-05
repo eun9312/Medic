@@ -6,7 +6,9 @@ Check-up
 
 {% block content %}
 <div class="row bottom-text">
-  <div class="col-md-6">
+<div class="col-md-1">
+</div>
+  <div class="col-md-4">
   
 <h2>Your Symptoms</h2>
   <div class="selection_list" id="symptom_type_list">
@@ -16,9 +18,10 @@ Check-up
   </div>
   {% endfor %}
 </div>
-
   </div>
-  <div class="col-md-6">
+<div class="col-md-2">
+</div>
+  <div class="col-md-4">
 <h2>Possible Causes</h2>
   <div class="selection_list" id="symptom_type_list">
   {% for d in diseases %}
@@ -28,6 +31,8 @@ Check-up
   {% endfor %}
 </div>
   </div>
+<div class="col-md-1">
+</div>
 </div>
 {% endblock %}
 
