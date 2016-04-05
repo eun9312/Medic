@@ -3,3 +3,42 @@
 {% block title %}
 Check-up
 {% endblock %}
+
+{% block content %}
+<div class="row bottom-text">
+  <div class="col-md-6">
+  
+<h2>Your Symptoms</h2>
+  <div class="selection_list" id="symptom_type_list">
+  {% for s in symptoms %}
+  <div class="result_elem">
+  {{s.symptomType.name}}: {{s.name}}
+  </div>
+  {% endfor %}
+</div>
+
+  </div>
+  <div class="col-md-6">
+<h2>Possible Causes</h2>
+  <div class="selection_list" id="symptom_type_list">
+  {% for d in diseases %}
+  <div class="result_elem">
+  {{d.name}}
+  </div>
+  {% endfor %}
+</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block logo-block %}
+<div class="info-block">
+<div class="container" style="text-align: center;">
+<h2>Consult with a medical professional for more accurate diagnosis.</h2>
+<br />
+    <form class="bottom-text" method="get" action="{% url 'medic_chat' %}">
+    <button class="btn btn-lg btn-info">Medic Chat</button>
+    </form>
+</div>
+</div>
+{% endblock %}

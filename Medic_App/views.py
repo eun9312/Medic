@@ -9,6 +9,7 @@ from django.http import HttpResponse, Http404
 import random
 import string
 import json
+from collections import Counter
 
 from Medic_App.forms import *
 
@@ -423,5 +424,19 @@ def delete_disease(request, pk):
 def get_checked_up(request):
     if not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
 	return render(request, 'no_select.html', {})
-    return render(request, 'get_checked_up.html', {})
+
+    selected_symptoms = request.POST.getlist('selected')
+    select_list = []
+    for s in selected_symptoms:
+        detail = get_object_or_404(Symptom, pk=s)
+        select_list.append(detail)
+
+    disease_list =[]
+    for s in select_list:
+        disease_list += s.disease_set.all()
+
+    counts = Counter(disease_list)
+    new_disease_list = sorted(counts, key=lambda x: (counts[x], x.commonness), reverse=True)[:10]
+
+    return render(request, 'get_checked_up.html', {'symptoms': select_list, 'diseases': new_disease_list})
 

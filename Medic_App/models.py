@@ -35,7 +35,7 @@ commonness_choices = (
 
 class Disease(models.Model):
 	name = models.CharField(max_length=50)
-	symptoms = models.ManyToManyField(Symptom, related_name="symptoms")
-	commonness = models.CharField(max_length=30, choices=commonness_choices)
+	symptoms = models.ManyToManyField(Symptom)
+	commonness = models.CharField(max_length=1, choices=commonness_choices)
 	added_by = models.ForeignKey(User)
 
