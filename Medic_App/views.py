@@ -18,12 +18,14 @@ from Medic_App.forms import *
 def home(request):
 	return render(request, 'index.html', {})
 
+@login_required
 def admin(request):
 	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
     		raise Http404
 	users = Status.objects.all()
 	return render(request, 'admin.html', {'list': users})
 
+@login_required
 def admin_symptom(request):
 	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
     		raise Http404
@@ -31,6 +33,7 @@ def admin_symptom(request):
 	detail = Symptom.objects.all()
 	return render(request, 'admin_symptom.html', {'type': type, 'detail': detail})
 
+@login_required
 def admin_disease(request):
 	if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
     		raise Http404
@@ -135,6 +138,7 @@ def confirm_registration(request, username, token):
     user.save()
     return render(request, 'confirmed.html', {})
     
+@login_required
 @transaction.atomic
 def confirm_doctor(request, username):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -147,6 +151,7 @@ def confirm_doctor(request, username):
     user_status.save()
     return redirect(reverse('admin'))
 
+@login_required
 @transaction.atomic
 def confirm_patient(request, username):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -225,6 +230,7 @@ Your new password is
 
     return render(request, 'needs-confirmation.html', context)
 
+@login_required
 def add_symptom(request):
     if not request.user.is_authenticated():
         return render(request, 'not_doc.html', {})
@@ -239,6 +245,7 @@ def add_symptom(request):
     symptomTypeList = SymptomType.objects.order_by('name')
     return render(request, 'add_symptom.html', {'symptomTypeList': symptomTypeList})
 
+@login_required
 @transaction.atomic
 def add_symptom_type(request):
     if not request.user.is_authenticated():
@@ -265,6 +272,7 @@ def add_symptom_type(request):
 	type.save()
 	return render(request, 'updated.html', {})
 
+@login_required
 @transaction.atomic
 def add_symptom_detail(request):
     if not request.user.is_authenticated():
@@ -296,7 +304,7 @@ def add_symptom_detail(request):
     new_detail.save()
     return render(request, 'updated.html', {})
 
-
+@login_required
 @transaction.atomic
 def add_disease(request):
     if not request.user.is_authenticated():
@@ -334,7 +342,7 @@ def add_disease(request):
 
     return render(request, 'updated.html', {})
 
-
+@login_required
 @transaction.atomic
 def delete_symptom_type(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -344,7 +352,7 @@ def delete_symptom_type(request, pk):
     type.delete()
     return redirect(reverse('admin_symptom'))
 
-
+@login_required
 @transaction.atomic
 def delete_symptom_detail(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -354,6 +362,7 @@ def delete_symptom_detail(request, pk):
     detail.delete()
     return redirect(reverse('admin_symptom'))
 
+@login_required
 @transaction.atomic
 def modify_symptom_type(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -371,7 +380,7 @@ def modify_symptom_type(request, pk):
 
     return redirect(reverse('admin_symptom'))
 
-
+@login_required
 @transaction.atomic
 def modify_symptom_detail(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
@@ -413,6 +422,8 @@ def get_detail_list(request):
     symptom_list = Symptom.objects.filter(symptomType=type).order_by('name')
     return HttpResponse(json.dumps(parseDetails(symptom_list)), content_type='application/json')
 
+@login_required
+@transaction.atomic
 def delete_disease(request, pk):
     if not request.user.is_authenticated() or not request.user.email == "medic.email.service@gmail.com":
         raise Http404
@@ -439,4 +450,7 @@ def get_checked_up(request):
     new_disease_list = sorted(counts, key=lambda x: (counts[x], x.commonness), reverse=True)[:10]
 
     return render(request, 'get_checked_up.html', {'symptoms': select_list, 'diseases': new_disease_list})
+
+def add_patients_chat(request):
+    return render(request, 'add_patients_chat.html', {})
 

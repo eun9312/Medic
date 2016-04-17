@@ -5,5 +5,40 @@ Patients Chat
 {% endblock %}
 
 {% block content %}
-Patients Chat
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
+  <h2>Find and Join a Chat Related to Your Disease</h2>
+  	<div class="selection_list" id="chat_list">
+	{% for chat in chatList %}
+	<div class="selection_elem" id="chat_{{chat.pk}}" onclick="select_chat({{chat.pk}})">
+	{{chat.name}}
+	</div>
+	{% endfor %}
+	</div>
+	<form class="form-intro" method="post" action="">
+	  <div id="hidden_checkboxes">
+      </div>
+	  <div class="bottom-text">
+	  {% csrf_token %}
+	  <input class="btn btn-lg btn-default" type="submit" value="Join Chat Room">
+	  </div>
+    </form>
+  </div>
+  <div class="col-md-4">
+  </div>
+</div>
+{% endblock %}
+
+{% block logo-block %}
+<div class="info-block">
+<div class="container" style="text-align: center;">
+<h2>Can't Find a Chat Related to Your Disease?</h2>
+<br />
+    <form class="bottom-text" method="get" action="{% url 'add_patients_chat' %}">
+    <button class="btn btn-lg btn-info">Make a New Chat Room</button>
+    </form>
+</div>
+</div>
 {% endblock %}
