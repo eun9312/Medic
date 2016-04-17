@@ -6,7 +6,7 @@ Disease
 <table>
 <tr>
 <td>Name</td>
-<td>Commonness (1~4)</td>
+<td>Commonness</td>
 <td>Symptoms</td>
 <td>Added by</td>
 <td>Change</td>
@@ -14,7 +14,7 @@ Disease
 {% for d in disease %}
 <tr>
 <td>{{d.name}}</td>
-<td>{{d.commonness}}</td>
+<td>{{d.get_commonness_display}}</td>
 <td>{% for s in d.symptoms.all %}
 {{s.symptomType.name}}: {{s.name}}<br />
 {% endfor %}

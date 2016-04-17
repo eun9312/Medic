@@ -39,3 +39,17 @@ class Disease(models.Model):
 	commonness = models.CharField(max_length=1, choices=commonness_choices)
 	added_by = models.ForeignKey(User)
 
+type_choices = (
+	("1", "medic chat"),
+	("2", "patients chat"),
+)
+
+class ChatRoom(models.Model):
+	name = models.CharField(max_length=100)
+	participants = models.ManyToManyField(User)
+	type = models.CharField(max_length=20, choices=type_choices)
+
+class Message(models.Model):
+	sent = models.ForeignKey(User)
+	room = models.ForeignKey(ChatRoom)
+	content = models.CharField(max_length=500)

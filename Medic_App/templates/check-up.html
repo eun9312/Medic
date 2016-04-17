@@ -12,7 +12,7 @@ Check-up
 {% block content %}
 <div class="row">
   <div class="col-md-4">
-    <h2>Symptom Type</h2>
+    <h2>1. Symptom Type</h2>
 	<div class="selection_list" id="symptom_type_list">
 	{% for type in symptomTypeList %}
 	<div class="selection_elem" id="type_elem_{{type.pk}}" onclick="select_type({{type.pk}})">
@@ -22,7 +22,7 @@ Check-up
 	</div>
   </div>
   <div class="col-md-4">
-    <h2>Symptom Detail</h2>
+    <h2>2. Symptom Detail</h2>
 	<div class="selection_list" id="symptom_detail_list">
 		<div class="default_elem">
 		Please Select a Symptom Type.
@@ -30,7 +30,7 @@ Check-up
 	</div>
   </div>
   <div class="col-md-4">
-    <h2>Your Symptoms</h2>
+    <h2>3. Your Symptoms</h2>
 	<div class="selection_list" id="your_list">
 		<div class="default_elem">
 		Please Select a Symptom Detail.
