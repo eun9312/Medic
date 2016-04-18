@@ -53,7 +53,8 @@ def medicchat(request):
 
 @login_required
 def patientschat(request):
-	return render(request, 'patients_chat.html', {})
+	chatList = ChatRoom.objects.all()
+	return render(request, 'patients_chat.html', {'chatList': chatList})
 
 @transaction.atomic
 def register(request):
@@ -451,6 +452,17 @@ def get_checked_up(request):
 
     return render(request, 'get_checked_up.html', {'symptoms': select_list, 'diseases': new_disease_list})
 
+@login_required
+@transaction.atomic
 def add_patients_chat(request):
-    return render(request, 'add_patients_chat.html', {})
+    if request.method == 'GET':
+        return render(request, 'add_patients_chat.html', {})
+
+    if not "chat_name" in request.POST or not request.POST["chat_name"]:
+        error = "Please enter a valid name of the new chat room."
+	return render(request, 'add_patients_chat.html', {"error": error})
+
+    new_chat = ChatRoom(name=request.POST["chat_name"], type="patients")
+    new_chat.save()
+    return render(request, 'new_chat_added.html', {})
 
