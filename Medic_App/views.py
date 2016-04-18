@@ -53,7 +53,7 @@ def medicchat(request):
 
 @login_required
 def patientschat(request):
-	chatList = ChatRoom.objects.all()
+	chatList = ChatRoom.objects.filter(type="patients")
 	return render(request, 'patients_chat.html', {'chatList': chatList})
 
 @transaction.atomic
@@ -466,3 +466,7 @@ def add_patients_chat(request):
     new_chat.save()
     return render(request, 'new_chat_added.html', {})
 
+@login_required
+@transaction.atomic
+def join_chat(request):
+    return render(request, 'chat_room.html', {})

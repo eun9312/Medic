@@ -51,4 +51,5 @@ urlpatterns = [
     url(r'^delete_disease/(?P<pk>\d+)$', medic_views.delete_disease, name='delete_disease'),
     url(r'^get_checked_up$$', medic_views.get_checked_up, name='get_checked_up'),
     url(r'^add_patients_chat$', medic_views.add_patients_chat, name='add_patients_chat'),
+    url(r'^join_chat$', medic_views.join_chat, name="join_chat"),
 ]
