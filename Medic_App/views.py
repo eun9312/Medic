@@ -69,7 +69,7 @@ def register(request):
 
     if not form.is_valid():
         return render(request, 'register.html', context)
-    if not request.POST['status']:
+    if not 'status' in request.POST or not request.POST['status']:
 	return render(request, 'register.html', context)
     if request.POST['status'] == 'doctor' and (len(request.FILES) != 2):
 	return render(request, 'register.html', context)
@@ -260,7 +260,7 @@ def add_symptom_type(request):
 	return Http404
 
     symptomTypeList = SymptomType.objects.all()
-    if not request.POST['symptom_type']:
+    if not 'symptom_type' in request.POST or not request.POST['symptom_type']:
         return render(request, 'add_symptom.html', {'errortype': 'Please enter a valid symptom type.',
 		'symptomTypeList': symptomTypeList})
 
@@ -287,10 +287,10 @@ def add_symptom_detail(request):
 	return Http404
 
     symptomTypeList = SymptomType.objects.all()
-    if not request.POST['symptom_type'] or request.POST['symptom_type'] == '':
+    if not 'symptom_type' in request.POST or not request.POST['symptom_type'] or request.POST['symptom_type'] == '':
         return render(request, 'add_symptom.html', {'errordetail': 'Please select a symptom type.',
 		'symptomTypeList': symptomTypeList})
-    if not request.POST['symptom_detail']:
+    if not 'symptom_detail' in request.POST or not request.POST['symptom_detail']:
         return render(request, 'add_symptom.html', {'errordetail': 'Please enter a valid symptom detail.',
 		'symptomTypeList': symptomTypeList})
 
@@ -323,14 +323,14 @@ def add_disease(request):
     if request.method == 'GET':
         return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList})
 
-    if not request.POST['name']:
+    if not 'name' in request.POST or not request.POST['name']:
         error_name = "Please enter a valid name of the new disease."
 	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_name': error_name})
 
-    if not request.POST['commonness'] or request.POST['commonness'] == '':
+    if not 'commonness' in request.POST or not request.POST['commonness'] or request.POST['commonness'] == '':
         error_common = "Please select commonness of the new disease."
 	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_common': error_common})
-    if not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
+    if not 'selected' in request.POST or not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
         error_select = "Please select at least one symptom."
 	return render(request, 'add_disease.html', {'symptomTypeList': symptomTypeList, 'error_select': error_select})
 
@@ -373,7 +373,7 @@ def modify_symptom_type(request, pk):
     if request.method == 'GET':
 	return render(request, 'modify_symptom.html', {'type': type})
 
-    if not request.POST.get('symptom_type', False):
+    if not 'symptom_type' in request.POST or not request.POST.get('symptom_type', False):
 	return render(request, 'modify_symptom.html', {'type': type})
 
     type.name = request.POST['symptom_type']
@@ -434,7 +434,7 @@ def delete_disease(request, pk):
     return redirect(reverse('admin_disease'))
 
 def get_checked_up(request):
-    if not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
+    if not 'selected' in request.POST or not request.POST.getlist('selected') or len(request.POST.getlist('selected')) == 0:
 	return render(request, 'no_select.html', {})
 
     selected_symptoms = request.POST.getlist('selected')
@@ -469,4 +469,8 @@ def add_patients_chat(request):
 @login_required
 @transaction.atomic
 def join_chat(request):
+    if not "selected" in request.POST or not request.POST["selected"]:
+        return render(request, 'no_chat.html', {})
+    room_pk = request.POST["selected"]
+    room = get_object_or_404(ChatRoom, pk=room_pk)
     return render(request, 'chat_room.html', {})
