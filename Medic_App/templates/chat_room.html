@@ -4,6 +4,14 @@
 Chat Room
 {% endblock %}
 
+{% block js_files %}
+{% load staticfiles %}
+<script src="{% static 'js/patients_chat.js' %}" type="text/javascript"></script>
+<script type="text/javascript">
+window.setInterval(function() {sendRequest({{chat_room.pk}});}, 1000);
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="row">
   <div class="col-md-3">
@@ -12,19 +20,17 @@ Chat Room
   <h2>{{chat_room.name}}</h2>
   	<div class="selection_list" id="chat_list">
 	{% for m in chat_room.message_set.all %}
-	<div class="chat_msg">
+	<div class="chat_msg" id="msg_{{m.pk}}">
 	{{m.sent}}: {{m.content}}
 	</div>
 	{% endfor %}
 	</div>
-	<form class="form-intro" method="post" action="">
-	  <div class="bottom-text">
-	  <input class="btn btn-lg btn-default chat_send" type="submit" value="Send">
+	<div class="bottom-text">
+	  <button id="msg_send" class="btn btn-lg btn-default chat_send" onclick="send_chat({{chat_room.pk}})">Send</button>
 	  <div class="chat_msg">
-	    <input class="form-control" type="text" placeholder="Enter Message" maxlength="500">
+	    <input class="form-control" id="msg" type="text" placeholder="Enter Message (Max Length: 500)" maxlength="500" onkeydown = "if (event.keyCode == 13) document.getElementById('msg_send').click()" >
 	  </div>
-	  {% csrf_token %}
-	  </div>
+	</div>
     </form>
   </div>
   <div class="col-md-3">

@@ -473,4 +473,39 @@ def join_chat(request):
         return render(request, 'no_chat.html', {})
     room_pk = request.POST["selected"]
     room = get_object_or_404(ChatRoom, pk=room_pk)
-    return render(request, 'chat_room.html', {})
+    return render(request, 'chat_room.html', {'chat_room': room})
+
+def parseMsg(msgList):
+    list = []
+    for m in msgList:
+        data = {}
+	data['pk'] = m.pk
+        data['sent'] = m.sent.username
+        data['content'] = m.content
+        list.append(data)
+    return list
+
+@login_required
+@transaction.atomic
+def send_msg(request):
+    if not 'pk' in request.POST or not request.POST['pk']:
+        return
+    if not 'msg' in request.POST or not request.POST['msg']:
+        return
+    room_pk = request.POST['pk']
+    room = get_object_or_404(ChatRoom, pk=room_pk)
+    new_msg = Message(sent=request.user, room=room, content=request.POST['msg'])
+    new_msg.save()
+    msgList = Message.objects.filter(room=room)
+    return HttpResponse(json.dumps(parseMsg(msgList)), content_type='application/json')
+
+@login_required
+@transaction.atomic
+def get_msg(request):
+    if not 'pk' in request.POST or not request.POST['pk']:
+        return
+    room_pk = request.POST['pk']
+    room = get_object_or_404(ChatRoom, pk=room_pk)
+    msgList = Message.objects.filter(room=room)
+    return HttpResponse(json.dumps(parseMsg(msgList)), content_type='application/json')
+
