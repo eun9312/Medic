@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+config = ConfigParser.ConfigParser()
+config.read("/home/ubuntu/team44/config.ini")
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,8 +82,10 @@ LOGIN_REDIRECT_URL = '/medic/'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config.get('DB', 'Name'),
+        'USER': config.get('DB', 'User'),
+        'PASSWORD': config.get('DB', 'Password'),
     }
 }
 
@@ -122,9 +127,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
-config = ConfigParser.ConfigParser()
-config.read("C:/Users/eun93_000/Desktop/15-437/team44/config.ini")
 
 EMAIL_HOST = config.get('Email', 'Host')
 EMAIL_PORT = config.get('Email', 'Port')
