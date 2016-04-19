@@ -6,7 +6,7 @@ Chat Room
 
 {% block js_files %}
 {% load staticfiles %}
-<script src="{% static 'js/patients_chat.js' %}" type="text/javascript"></script>
+<script src="{% static 'js/chat.js' %}" type="text/javascript"></script>
 <script type="text/javascript">
 window.setInterval(function() {sendRequest({{chat_room.pk}});}, 1000);
 </script>
@@ -20,7 +20,7 @@ window.setInterval(function() {sendRequest({{chat_room.pk}});}, 1000);
   <h2>{{chat_room.name}}</h2>
   	<div class="selection_list" id="chat_list">
 	{% for m in chat_room.message_set.all %}
-	<div class="chat_msg" id="msg_{{m.pk}}">
+	<div class="msg_history" id="msg_{{m.pk}}">
 	{{m.sent}}: {{m.content}}
 	</div>
 	{% endfor %}

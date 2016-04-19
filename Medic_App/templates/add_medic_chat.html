@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add New Medic Chat
+{% endblock %}
+
+{% block content %}
+<form class="form-center" method="post" action="{% url 'add_medic_chat'%}">
+<h2>Add New Chat Room</h2>
+<input class="form-control" type="text" name="chat_name" placeholder="New Chat Room" maxlength="100">
+{% if error %}
+<p class="error">
+{{error}}
+</p>
+{% endif %}
+{% csrf_token %}
+<input class="btn btn-lg btn-default btn-block bottom-text" type="submit" value="Add">
+</form>
+{% endblock %}

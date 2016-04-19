@@ -54,4 +54,5 @@ urlpatterns = [
     url(r'^join_chat$', medic_views.join_chat, name="join_chat"),
     url(r'^send_msg$', medic_views.send_msg, name="send_msg"),
     url(r'^get_msg$', medic_views.get_msg, name="get_msg"),
+    url(r'^add_medic_chat$', medic_views.add_medic_chat, name='add_medic_chat'),
 ]

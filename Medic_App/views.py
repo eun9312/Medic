@@ -49,7 +49,8 @@ def checkup(request):
 
 @login_required
 def medicchat(request):
-	return render(request, 'medic_chat.html', {})
+	chatList = ChatRoom.objects.filter(type="medic")
+	return render(request, 'medic_chat.html', {'chatList': chatList})
 
 @login_required
 def patientschat(request):
@@ -500,7 +501,6 @@ def send_msg(request):
     return HttpResponse(json.dumps(parseMsg(msgList)), content_type='application/json')
 
 @login_required
-@transaction.atomic
 def get_msg(request):
     if not 'pk' in request.POST or not request.POST['pk']:
         return
@@ -509,3 +509,26 @@ def get_msg(request):
     msgList = Message.objects.filter(room=room)
     return HttpResponse(json.dumps(parseMsg(msgList)), content_type='application/json')
 
+@login_required
+@transaction.atomic
+def add_medic_chat(request):
+    if not request.user.is_authenticated():
+        return render(request, 'not_doc.html', {})
+    user_status = get_object_or_404(Status, user=request.user)
+    if user_status.status == "patient":
+        return render(request, 'not_doc.html', {})
+    if user_status.status == "need-confirmation":
+        return render(request, 'not_confirmed_doc.html', {})
+    if user_status.status != "doctor":
+	return Http404
+
+    if request.method == 'GET':
+        return render(request, 'add_medic_chat.html', {})
+
+    if not "chat_name" in request.POST or not request.POST["chat_name"]:
+        error = "Please enter a valid name of the new chat room."
+	return render(request, 'add_medic_chat.html', {"error": error})
+
+    new_chat = ChatRoom(name=request.POST["chat_name"], type="medic")
+    new_chat.save()
+    return render(request, 'new_chat_added.html', {})

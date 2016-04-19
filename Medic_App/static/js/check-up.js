@@ -43,7 +43,7 @@ function select_type(pk) {
 	}
 	
 	html_type = document.getElementById("type_elem_"+pk);
-	html_type.style.backgroundColor = "#089CCB";
+	html_type.style.backgroundColor = "#056280";
 	html_type.style.color = "white";
 }
 
