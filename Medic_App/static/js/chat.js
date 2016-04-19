@@ -29,7 +29,7 @@ function refresh_msg() {
 		}
 		
 		html_list = document.getElementById("chat_list");
-		var new_msg = "<div class='chat_msg' id='msg_"+pk+"'> "+sent+": "+content+"</div>";
+		var new_msg = "<div class='msg_history' id='msg_"+pk+"'> "+sent+": "+content+"</div>";
 		html_list.innerHTML += new_msg;
 	}
 }
